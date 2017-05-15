@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -15,24 +17,40 @@ import static org.mockito.Mockito.when;
  * Created by yoyo on 15/05/17.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "applicationContext-test.xml")
+@ContextConfiguration
 public class MyServiceTest {
 
-@Autowired
-private MyService myService;
 
-@Autowired
-private MyRepository myRepository;
+    @Configuration
+    static class Config {
+
+        @Bean
+        public MyRepository buildRepository() {
+//            MyRepository myRepository = new MyRepository();
+            MyRepository myRepository = mock(MyRepository.class);
+            when(myRepository.getHello(anyString())).thenReturn("Hello AnnotatedMock");
+            return myRepository;
+        }
+
+        @Bean
+        public MyService buildService() {
+            return new MyService();
+        }
+    }
+
+    @Autowired
+    private MyService myService;
+
+    @Autowired
+    private MyRepository myRepository;
 
     @Before
-    public void init(){
-        when(myRepository.getHello(anyString())).thenReturn("Hello MOCK");
+    public void init() {
+//        when(myRepository.getHello(anyString())).thenReturn("Hello MOCK");
     }
 
     @Test
     public void test() {
         myService.hello("Lionel");
-
-
     }
 }
