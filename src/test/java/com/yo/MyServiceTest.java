@@ -17,26 +17,26 @@ import static org.mockito.Mockito.when;
  * Created by yoyo on 15/05/17.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@ContextConfiguration(classes = MyServiceTestConfig.class)
 public class MyServiceTest {
 
 
-    @Configuration
-    static class Config {
-
-        @Bean
-        public MyRepository buildRepository() {
-//            MyRepository myRepository = new MyRepository();
-            MyRepository myRepository = mock(MyRepository.class);
-            when(myRepository.getHello(anyString())).thenReturn("Hello AnnotatedMock");
-            return myRepository;
-        }
-
-        @Bean
-        public MyService buildService() {
-            return new MyService();
-        }
-    }
+//    @Configuration
+//    static class Config {
+//
+//        @Bean
+//        public MyRepository buildRepository() {
+////            MyRepository myRepository = new MyRepository();
+//            MyRepository myRepository = mock(MyRepository.class);
+//            when(myRepository.getHello(anyString())).thenReturn("Hello AnnotatedMock");
+//            return myRepository;
+//        }
+//
+//        @Bean
+//        public MyService buildService() {
+//            return new MyService();
+//        }
+//    }
 
     @Autowired
     private MyService myService;
